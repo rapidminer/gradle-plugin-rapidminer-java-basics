@@ -16,6 +16,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 		project.configure(project) {
 			apply plugin: 'java'
 			apply plugin: 'base'
+			apply plugin: 'eclipse'
 
 			// minimize changes, at least for now (gradle uses 'build' by default)
 			buildDir = "target"
