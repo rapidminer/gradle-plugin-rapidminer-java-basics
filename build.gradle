@@ -8,9 +8,10 @@ buildscript {
 }
 
 // define publish repositories and publications to upload
-publish {
+uploadConfig {
 	releaseRepo 'libs-release-local'
 	snapshotRepo 'libs-snapshot-local'
+	contextUrl "${artifactory_contextUrl}"
 	publication 'mavenJava'
 }
 
@@ -19,7 +20,7 @@ publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
-			artifactId "rapidminer-java-basics"
+			artifactId "java-basics"
 		}
 	}
 }
