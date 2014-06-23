@@ -1,0 +1,3 @@
+## Introduction
+
+The rapidminer-java-basics plugin is designed to ...
