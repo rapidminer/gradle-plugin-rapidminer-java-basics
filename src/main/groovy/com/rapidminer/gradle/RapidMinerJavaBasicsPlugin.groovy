@@ -47,6 +47,16 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			// declare java version compatibility
 			sourceCompatibility = JAVA_COMPATIBILITY
 			targetCompatibility = JAVA_COMPATIBILITY
+
+			// add unit test settings
+			dependencies { testCompile 'junit:junit:4.11' }
+
+			test {
+				ignoreFailures = true
+
+				// set system properties, as they are null by default
+				systemProperties = System.properties
+			}
 		}
 
 	}
