@@ -25,7 +25,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING
 
-			tasks.withType(Compile) { options.encoding = ENCODING }
+			tasks.withType(org.gradle.api.tasks.compile.JavaCompile) { options.encoding = ENCODING }
 
 			// minimize changes, at least for now (gradle uses 'build' by default)
 			buildDir = DEFAULT_BUILD_DIR
