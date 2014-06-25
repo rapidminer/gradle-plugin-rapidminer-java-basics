@@ -11,6 +11,10 @@ import org.gradle.api.Project
  */
 class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
+	private static final String ENCODING = 'UTF-8'
+	private static final String JAVA_COMPATIBILITY = 1.7
+	private static final String DEFAULT_BUILD_DIR = "target"
+
 	@Override
 	void apply(Project project) {
 		project.configure(project) {
@@ -18,8 +22,13 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			apply plugin: 'base'
 			apply plugin: 'eclipse'
 
+			// set compilation encoding
+			compileJava.options.encoding = ENCODING
+
+			tasks.withType(Compile) { options.encoding = ENCODING }
+
 			// minimize changes, at least for now (gradle uses 'build' by default)
-			buildDir = "target"
+			buildDir = DEFAULT_BUILD_DIR
 
 			// ###################
 			// Create Maven like provided configuration
@@ -36,8 +45,8 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			// ####################
 
 			// declare java version compatibility
-			sourceCompatibility = 1.7
-			targetCompatibility = 1.7
+			sourceCompatibility = JAVA_COMPATIBILITY
+			targetCompatibility = JAVA_COMPATIBILITY
 		}
 
 	}
