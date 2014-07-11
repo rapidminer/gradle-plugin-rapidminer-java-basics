@@ -30,20 +30,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			// minimize changes, at least for now (gradle uses 'build' by default)
 			buildDir = DEFAULT_BUILD_DIR
 
-			// ###################
-			// Create Maven like provided configuration
-			// See http://issues.gradle.org/browse/GRADLE-784
-			configurations { provided }
-
-			sourceSets {
-				main.compileClasspath += configurations.provided
-				test.compileClasspath += configurations.provided
-				test.runtimeClasspath += configurations.provided
-			}
-
-			eclipse.classpath.plusConfigurations += configurations.provided
-			// ####################
-
 			// declare java version compatibility
 			sourceCompatibility = JAVA_COMPATIBILITY
 			targetCompatibility = JAVA_COMPATIBILITY
@@ -56,6 +42,37 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 				// set system properties, as they are null by default
 				systemProperties = System.properties
+			}
+
+			// create sourceJar task
+			tasks.create(name: 'sourceJar', type: org.gradle.api.tasks.bundling.Jar)
+
+			// configure sourceJar task
+			sourceJar {
+				from sourceSets.main.allSource
+				classifier = 'sources'
+			}
+
+			// create javadocJar task
+			tasks.create(name: 'javadocJar', type: org.gradle.api.tasks.bundling.Jar, dependsOn: javadoc)
+
+			// configure javaDoc jar task
+			task javadocJar {
+				classifier = 'javadoc'
+				from javadoc.destinationDir
+			}
+
+			// ###################
+			// Create Maven like provided configuration
+			// See http://issues.gradle.org/browse/GRADLE-784
+			configurations { provided }
+
+			afterEvaluate {
+				sourceSets {
+					main.compileClasspath += configurations.provided
+					test.compileClasspath += configurations.provided
+					test.runtimeClasspath += configurations.provided
+				}
 			}
 		}
 

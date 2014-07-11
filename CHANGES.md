@@ -7,3 +7,6 @@
 * By default JUnit 4.11 will be added as testCompile dependency
 * Set system properties when executing tests 
 * By default test errors will be ignored (otherwise Jenkins will become red instead of yellow on test failures)  
+#### 0.1.3
+* Fix provided configuration for Gradle 2.0
+* Adds JavaDoc and Sources Jar tasks
