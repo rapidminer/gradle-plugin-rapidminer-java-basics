@@ -17,10 +17,10 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 	@Override
 	void apply(Project project) {
+
 		project.configure(project) {
 			apply plugin: 'java'
-			apply plugin: 'base'
-			apply plugin: 'eclipse'
+			apply plugin: 'maven-publish'
 
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING
@@ -38,28 +38,30 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			dependencies { testCompile 'junit:junit:4.11' }
 
 			test {
-				ignoreFailures = true
-
 				// set system properties, as they are null by default
 				systemProperties = System.properties
 			}
 
-			// create sourceJar task
+			// create and configure sourceJar task
 			tasks.create(name: 'sourceJar', type: org.gradle.api.tasks.bundling.Jar)
-
-			// configure sourceJar task
 			sourceJar {
 				from sourceSets.main.allSource
 				classifier = 'sources'
 			}
 
-			// create javadocJar task
+			// create and configure javadocJar task
 			tasks.create(name: 'javadocJar', type: org.gradle.api.tasks.bundling.Jar, dependsOn: javadoc)
-
-			// configure javaDoc jar task
 			task javadocJar {
 				classifier = 'javadoc'
 				from javadoc.destinationDir
+			}
+			
+			publishing {
+				publications {
+					jar(org.gradle.api.publish.maven.MavenPublication) { from components.java }
+					sourceJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.sourceJar }
+					javadocJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.javadocJar }
+				}
 			}
 
 			// ###################
@@ -75,7 +77,5 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				}
 			}
 		}
-
 	}
-
 }

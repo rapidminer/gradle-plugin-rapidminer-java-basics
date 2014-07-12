@@ -10,3 +10,7 @@
 #### 0.1.3
 * Fix provided configuration for Gradle 2.0
 * Adds JavaDoc and Sources Jar tasks
+#### 0.2.0
+* Appplies 'maven-publish' plugin
+* Configures Jar, JavaDoc, and Sources publications
+* Do not ignore test failures by default
