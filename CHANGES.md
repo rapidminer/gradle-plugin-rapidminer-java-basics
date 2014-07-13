@@ -14,3 +14,5 @@
 * Appplies 'maven-publish' plugin
 * Configures Jar, JavaDoc, and Sources publications
 * Do not ignore test failures by default
+#### 0.2.1
+* Use Pivotals prop-devs plugin to generate provided and optional dependency scope

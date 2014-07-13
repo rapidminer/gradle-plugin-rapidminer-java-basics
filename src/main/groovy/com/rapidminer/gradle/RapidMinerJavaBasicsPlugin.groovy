@@ -20,7 +20,14 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 		project.configure(project) {
 			apply plugin: 'java'
+			apply plugin: 'eclipse'
 			apply plugin: 'maven-publish'
+			
+			// ###################
+			// Used to create Maven like provided configuration
+			// See http://issues.gradle.org/browse/GRADLE-784
+			apply plugin: 'propdeps'
+			apply plugin: 'propdeps-eclipse'
 
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING
@@ -51,9 +58,16 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 			// create and configure javadocJar task
 			tasks.create(name: 'javadocJar', type: org.gradle.api.tasks.bundling.Jar, dependsOn: javadoc)
-			task javadocJar {
+			javadocJar {
 				classifier = 'javadoc'
 				from javadoc.destinationDir
+			}
+			
+			// specify artifacts
+			artifacts {
+				jar
+				sourceJar
+				javadocJar
 			}
 			
 			publishing {
@@ -64,18 +78,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				}
 			}
 
-			// ###################
-			// Create Maven like provided configuration
-			// See http://issues.gradle.org/browse/GRADLE-784
-			configurations { provided }
-
-			afterEvaluate {
-				sourceSets {
-					main.compileClasspath += configurations.provided
-					test.compileClasspath += configurations.provided
-					test.runtimeClasspath += configurations.provided
-				}
-			}
 		}
 	}
 }

@@ -31,4 +31,9 @@ publishing {
 dependencies {
 	compile gradleApi()
 	compile localGroovy()
+	
+	// ###################
+	// Used to create Maven like provided configuration
+	// See https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
+	compile 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
 }
