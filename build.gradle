@@ -1,6 +1,6 @@
 buildscript {
 	dependencies {
-		classpath 'com.rapidminer.gradle:gradle-plugin:0.2.3'
+		classpath 'com.rapidminer.gradle:gradle-plugin:0.1.2'
 	}
 }
 
@@ -8,11 +8,4 @@ apply plugin: 'rapidminer-gradle-plugin'
 
 gradlePlugin {
 	id 'java-basics'
-}
-
-dependencies {
-	// ###################
-	// Used to create Maven like provided configuration
-	// See https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
-	compile 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
 }

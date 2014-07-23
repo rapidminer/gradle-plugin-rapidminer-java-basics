@@ -26,8 +26,17 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			// ###################
 			// Used to create Maven like provided configuration
 			// See http://issues.gradle.org/browse/GRADLE-784
-			apply plugin: 'propdeps'
-			apply plugin: 'propdeps-eclipse'
+			configurations {
+			    provided
+			}
+			
+			sourceSets {
+			    main.compileClasspath += configurations.provided
+			    test.compileClasspath += configurations.provided
+			    test.runtimeClasspath += configurations.provided
+			}
+			
+			eclipse.classpath.plusConfigurations += [configurations.provided]
 
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING
