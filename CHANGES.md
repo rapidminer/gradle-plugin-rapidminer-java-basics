@@ -1,7 +1,10 @@
 ## Change Log
 
+#### 0.2.2
+* Replace Pivotal's prop-devs plugins by custom implementation
+
 #### 0.2.1
-* Use Pivotals prop-devs plugin to generate provided and optional dependency scope
+* Use Pivotal's prop-devs plugin to generate provided and optional dependency scope
 
 #### 0.2.0
 * Appplies 'maven-publish' plugin
