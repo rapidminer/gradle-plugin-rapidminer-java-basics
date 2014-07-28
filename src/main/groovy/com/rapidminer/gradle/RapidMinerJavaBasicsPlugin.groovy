@@ -22,7 +22,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			apply plugin: 'java'
 			apply plugin: 'eclipse'
 			apply plugin: 'maven-publish'
-			
+
 			// ###################
 			// Used to create Maven like provided configuration
 			// See http://issues.gradle.org/browse/GRADLE-784
@@ -62,29 +62,38 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				classifier = 'javadoc'
 				from javadoc.destinationDir
 			}
-			
+
+			// create and configure testJar tasl
+			tasks.create(name: 'testJar', type: org.gradle.api.tasks.bundling.Jar) {
+				classifier = 'tests'
+				from sourceSets.test.classes
+			}
+
 			// specify artifacts
 			artifacts {
 				jar
 				sourceJar
 				javadocJar
+				testJar
 			}
-			
+
 			publishing {
 				publications {
 					jar(org.gradle.api.publish.maven.MavenPublication) { from components.java }
 					sourceJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.sourceJar }
 					javadocJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.javadocJar }
+					testJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.testJar }
 				}
 			}
-			
+
 			// This disables the pedantic doclint feature of JDK8
+			// see http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
 			if (JavaVersion.current().isJava8Compatible()) {
 				tasks.withType(Javadoc) {
 					options.addStringOption('Xdoclint:none', '-quiet')
 				}
 			}
-			
+
 
 		}
 	}
