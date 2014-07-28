@@ -77,6 +77,14 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 					javadocJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.javadocJar }
 				}
 			}
+			
+			// This disables the pedantic doclint feature of JDK8
+			if (JavaVersion.current().isJava8Compatible()) {
+				tasks.withType(Javadoc) {
+					options.addStringOption('Xdoclint:none', '-quiet')
+				}
+			}
+			
 
 		}
 	}
