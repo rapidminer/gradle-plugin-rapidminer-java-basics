@@ -1,5 +1,10 @@
 ## Change Log
 
+#### 0.2.3
+* Adds Gradle 2.1 compatible plugin name 'com.rapidminer.gradle.java-basics'
+* Adds testJar task and Maven publication
+* Disables Java 8 JavaDoc doclint check
+
 #### 0.2.2
 * Replace Pivotal's prop-devs plugins by custom implementation
 
