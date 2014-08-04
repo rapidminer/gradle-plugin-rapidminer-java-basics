@@ -1,5 +1,8 @@
 ## Change Log
 
+#### 0.2.5
+* Makes updateTestTimestamps task more robust
+
 #### 0.2.4
 * Adds Gradle 2.1 compatible plugin name 'com.rapidminer.gradle.java-basics'
 * Adds 'external' sourceSet
