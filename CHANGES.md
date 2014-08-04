@@ -1,9 +1,15 @@
 ## Change Log
 
-#### 0.2.3
+#### 0.2.4
 * Adds Gradle 2.1 compatible plugin name 'com.rapidminer.gradle.java-basics'
+* Adds 'external' sourceSet
 * Adds testJar task and Maven publication
 * Disables Java 8 JavaDoc doclint check
+* Fixes updateTestTimestamps task
+
+#### 0.2.3
+* Adds 'generated' sourceSet which extends main sourceSet
+* Adds updateTestTimestamps task
 
 #### 0.2.2
 * Replace Pivotal's prop-devs plugins by custom implementation
