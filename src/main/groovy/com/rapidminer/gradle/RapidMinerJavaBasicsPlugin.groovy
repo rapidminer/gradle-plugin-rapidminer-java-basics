@@ -50,7 +50,26 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				test.runtimeClasspath += configurations.provided
 			}
 
-			//TODO add external source sets
+			// Configure 'external' source set
+			sourceSets {
+				external {
+					java { srcDir 'src/external/java/' }
+					resources { srcDir 'src/external/resources/' }
+				}
+				main {
+					compileClasspath += external.output
+					runtimeClasspath += external.output
+				}
+			}
+
+			// Ensure that external source set will be added to the jar
+			jar { from sourceSets.external.output }
+
+			// as well as to the shadowJar task (if task exist)
+			if(tasks.getByName('shadowJar')){
+				shadowJar { from sourceSets.external.output }
+			}
+
 			/*
 			 * Extend the main source set by adding generated java and generated resources
 			 */
