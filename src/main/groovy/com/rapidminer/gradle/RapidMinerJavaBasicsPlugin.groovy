@@ -18,6 +18,9 @@ package com.rapidminer.gradle
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.UnknownTaskException
+import org.gradle.api.tasks.javadoc.Javadoc
+
 
 
 /**
@@ -64,11 +67,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 			// Ensure that external source set will be added to the jar
 			jar { from sourceSets.external.output }
-
-			// as well as to the shadowJar task (if task exist)
-			if(tasks.getByName('shadowJar')){
-				shadowJar { from sourceSets.external.output }
-			}
 
 			/*
 			 * Extend the main source set by adding generated java and generated resources
@@ -127,10 +125,16 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				from javadoc.destinationDir
 			}
 
+			/*
+			 * Configure an artifact which contains the classes from the test source set
+			 */
+			configurations { testArtifacts.extendsFrom testRuntime }
+
+
 			// create and configure testJar tasl
 			tasks.create(name: 'testJar', type: org.gradle.api.tasks.bundling.Jar) {
-				classifier = 'tests'
-				from sourceSets.test.classes
+				classifier 'test'
+				from sourceSets.test.output
 			}
 
 			// specify artifacts
@@ -138,7 +142,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				jar
 				sourceJar
 				javadocJar
-				testJar
+				testArtifacts testJar
 			}
 
 			publishing {
@@ -158,7 +162,18 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				}
 			}
 
-
+			project.afterEvaluate {
+				// Check if project contains shadowJar task and
+				// configure it to use external sourceSet as well
+				try {
+					// check if task exists
+					project.tasks.getByName('shadowJar')
+					// configure task
+					shadowJar { from sourceSets.external.output }
+				} catch(UnknownTaskException e){
+					logger.info('Cannot configure shadowJar task. Project does not apply shadow plugin.', e)
+				}
+			}
 		}
 	}
 }
