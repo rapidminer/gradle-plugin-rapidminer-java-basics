@@ -104,8 +104,13 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			tasks.create(name: 'updateTestTimestamps') << {
 				def timestamp = System.currentTimeMillis()
 				test.outputs.files.each { File output ->
-					output.eachFile { File f ->
-						f.lastModified = timestamp
+					if(output.exists()) {
+						output.lastModified = timestamp
+						if(output.isDirectory()){
+							output.eachFile { File f ->
+								f.lastModified = timestamp
+							}
+						}
 					}
 				}
 			}
