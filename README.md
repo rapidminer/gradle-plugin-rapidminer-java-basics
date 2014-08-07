@@ -17,7 +17,7 @@ The 'rapidminer-java-basics' bundels configuration settings for Java projects.
 		}
 	}
 
-	apply plugin: 'rapidminer-java-basics'
+	apply plugin: 'com.rapidminer.gradle.java-basics'
 	
 ## Applied Plugins
 * java
