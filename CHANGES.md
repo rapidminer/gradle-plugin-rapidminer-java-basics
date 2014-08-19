@@ -1,5 +1,10 @@
 ## Change Log
 
+#### 0.2.6
+* Do not show exception if shadowJar task does not exist
+* Added test and sources artifact to main artifact publication 
+* Changes buildDir from 'target/' to Gradle default ('build/')
+
 #### 0.2.5
 * Makes updateTestTimestamps task more robust
 

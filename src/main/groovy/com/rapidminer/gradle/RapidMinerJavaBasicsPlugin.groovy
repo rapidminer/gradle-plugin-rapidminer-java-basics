@@ -20,6 +20,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.UnknownTaskException
 import org.gradle.api.tasks.javadoc.Javadoc
+import org.gradle.api.artifacts.ModuleDependency
+import org.gradle.api.artifacts.ExcludeRule
+import org.gradle.api.plugins.JavaPlugin
 
 
 
@@ -32,7 +35,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 	private static final String ENCODING = 'UTF-8'
 	private static final String JAVA_COMPATIBILITY = JavaVersion.VERSION_1_7
-	private static final String DEFAULT_BUILD_DIR = "target"
 
 	@Override
 	void apply(Project project) {
@@ -84,9 +86,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			compileJava.options.encoding = ENCODING
 
 			tasks.withType(org.gradle.api.tasks.compile.JavaCompile) { options.encoding = ENCODING }
-
-			// minimize changes, at least for now (gradle uses 'build' by default)
-			buildDir = DEFAULT_BUILD_DIR
 
 			// declare java version compatibility
 			sourceCompatibility = JAVA_COMPATIBILITY
@@ -152,10 +151,31 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 			publishing {
 				publications {
-					jar(org.gradle.api.publish.maven.MavenPublication) { from components.java }
-					sourceJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.sourceJar }
+					jar(org.gradle.api.publish.maven.MavenPublication) { 
+						from components.java 
+						
+						artifact tasks.testJar
+						artifact tasks.sourceJar 
+						
+				        // Hack to ensure that the generated POM file contains the correct exclusion patterns.
+				        project.configurations[JavaPlugin.RUNTIME_CONFIGURATION_NAME].allDependencies.findAll {  
+				            it instanceof ModuleDependency && !it.excludeRules.isEmpty()  
+				        }.each { ModuleDependency dep ->  
+				            pom.withXml {  
+				                def xmlDep = asNode().dependencies.dependency.find {  
+				                    it.groupId[0].text() == dep.group && it.artifactId[0].text() == dep.name  
+				                }  
+				                def xmlExclusions = xmlDep.exclusions[0]  
+				                if (!xmlExclusions) xmlExclusions = xmlDep.appendNode('exclusions')
+				                dep.excludeRules.each { ExcludeRule rule ->  
+				                    def xmlExclusion = xmlExclusions.appendNode('exclusion')  
+				                    xmlExclusion.appendNode('groupId', rule.group)  
+				                    xmlExclusion.appendNode('artifactId', rule.module)  
+				                }  
+				            }  
+    					} 
+					}
 					javadocJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.javadocJar }
-					testJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.testJar }
 				}
 			}
 
@@ -176,7 +196,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 					// configure task
 					shadowJar { from sourceSets.external.output }
 				} catch(UnknownTaskException e){
-					logger.info('Cannot configure shadowJar task. Project does not apply shadow plugin.', e)
+					logger.info('Cannot configure shadowJar task. Project does not apply shadow plugin.')
 				}
 			}
 		}
