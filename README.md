@@ -4,11 +4,11 @@ The 'rapidminer-java-basics' bundels configuration settings for Java projects.
 
 * Ensure correct source and target compatibility level (1.7)
 * Ensure UTF-8 encoding when compiling Java code
-* Set build dir to 'target'
 * Add JUnit as testCompile dependency
-* Add tasks for creating source and javadoc Jars
-* Define jar, source and javadoc Maven publications
-* Adds Maven like 'provided' and 'optional' source sets via propdeps plugin
+* Add tasks for creating source, javadoc, and test Jars
+* Define jar (main, source,test) and javadoc Maven publications
+* Adds 'external' source set which is also compiled into generated Jar
+* Adds 'src/generated' source folders to main source set 
 
 ## How to use
 	buildscript {
@@ -23,13 +23,14 @@ The 'rapidminer-java-basics' bundels configuration settings for Java projects.
 * java
 * eclipse
 * maven-publish (http://www.gradle.org/docs/current/userguide/publishing_maven.html)
-* propdeps (https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin)
-* propdeps-eclipse
 
 ## Added Tasks
 
-#####sourceJar
+##### sourceJar
 Creates a Jar containing all Project sources
 
-#####javadocJar
+##### javadocJar
 Creates a Jar containing the project's JavaDoc
+
+##### testJar
+Creates a Jar containing the project's test classes
