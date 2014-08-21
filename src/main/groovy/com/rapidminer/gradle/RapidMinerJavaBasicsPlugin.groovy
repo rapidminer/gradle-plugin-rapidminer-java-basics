@@ -158,6 +158,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 						artifact tasks.sourceJar 
 						
 				        // Hack to ensure that the generated POM file contains the correct exclusion patterns.
+				        // TODO can be removed with Gradle 2.1
 				        project.configurations[JavaPlugin.RUNTIME_CONFIGURATION_NAME].allDependencies.findAll {  
 				            it instanceof ModuleDependency && !it.excludeRules.isEmpty()  
 				        }.each { ModuleDependency dep ->  
