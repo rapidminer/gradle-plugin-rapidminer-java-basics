@@ -42,7 +42,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 		project.configure(project) {
 			apply plugin: 'java'
 			apply plugin: 'eclipse'
-			apply plugin: 'maven-publish'
 
 			// ###################
 			// Used to create Maven like provided configuration
@@ -114,71 +113,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				}
 			}
 			check.dependsOn(updateTestTimestamps)
-
-			// create and configure sourceJar task
-			tasks.create(name: 'sourceJar', type: org.gradle.api.tasks.bundling.Jar)
-			sourceJar {
-				from sourceSets.main.allSource
-				classifier = 'sources'
-			}
-
-			// create and configure javadocJar task
-			tasks.create(name: 'javadocJar', type: org.gradle.api.tasks.bundling.Jar, dependsOn: javadoc)
-			javadocJar {
-				classifier = 'javadoc'
-				from javadoc.destinationDir
-			}
-
-			/*
-			 * Configure an artifact which contains the classes from the test source set
-			 */
-			configurations { testArtifacts.extendsFrom testRuntime }
-
-
-			// create and configure testJar tasl
-			tasks.create(name: 'testJar', type: org.gradle.api.tasks.bundling.Jar) {
-				classifier 'test'
-				from sourceSets.test.output
-			}
-
-			// specify artifacts
-			artifacts {
-				jar
-				sourceJar
-				javadocJar
-				testArtifacts testJar
-			}
-
-			publishing {
-				publications {
-					jar(org.gradle.api.publish.maven.MavenPublication) { 
-						from components.java 
-						
-						artifact tasks.testJar
-						artifact tasks.sourceJar 
-						
-				        // Hack to ensure that the generated POM file contains the correct exclusion patterns.
-				        // TODO can be removed with Gradle 2.1
-				        project.configurations[JavaPlugin.RUNTIME_CONFIGURATION_NAME].allDependencies.findAll {  
-				            it instanceof ModuleDependency && !it.excludeRules.isEmpty()  
-				        }.each { ModuleDependency dep ->  
-				            pom.withXml {  
-				                def xmlDep = asNode().dependencies.dependency.find {  
-				                    it.groupId[0].text() == dep.group && it.artifactId[0].text() == dep.name  
-				                }  
-				                def xmlExclusions = xmlDep.exclusions[0]  
-				                if (!xmlExclusions) xmlExclusions = xmlDep.appendNode('exclusions')
-				                dep.excludeRules.each { ExcludeRule rule ->  
-				                    def xmlExclusion = xmlExclusions.appendNode('exclusion')  
-				                    xmlExclusion.appendNode('groupId', rule.group)  
-				                    xmlExclusion.appendNode('artifactId', rule.module)  
-				                }  
-				            }  
-    					} 
-					}
-					javadocJar(org.gradle.api.publish.maven.MavenPublication) { artifact tasks.javadocJar }
-				}
-			}
 
 			// This disables the pedantic doclint feature of JDK8
 			// see http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html

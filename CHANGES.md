@@ -1,5 +1,9 @@
 ## Change Log
 
+#### 0.3.0
+* Moved Java publishing related tasks to new Gradle plugin. 
+  For sourceJar, javaDocJar and publications please apply 'com.rapidminer.gradle.java-publishing'
+
 #### 0.2.6
 * Do not show exception if shadowJar task does not exist
 * Added test and sources artifact to main artifact publication 
