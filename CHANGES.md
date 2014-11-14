@@ -1,5 +1,8 @@
 ## Change Log
 
+#### 0.3.1
+* Adds shortened plugin name 'com.rapidminer.java-basics' to comply with plugins.gradle.org standards
+
 #### 0.3.0
 * Moved Java publishing related tasks to new Gradle plugin. 
   For sourceJar, javaDocJar and publications please apply 'com.rapidminer.gradle.java-publishing'
