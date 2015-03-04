@@ -42,6 +42,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 		project.configure(project) {
 			apply plugin: 'java'
 			apply plugin: 'eclipse'
+			apply plugin: 'idea'
 
 			// ###################
 			// Used to create Maven like provided configuration
@@ -79,7 +80,19 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				}
 			}
 
-			eclipse.classpath.plusConfigurations += [configurations.provided]
+			// Configure Eclipse provided classpath
+			eclipse {
+				classpath {
+					plusConfigurations += [configurations.provided]
+				}
+			}
+			
+			// Configure Intellij provided classpath
+			idea {
+				module {
+					scopes.PROVIDED.plus += [configurations.provided]
+				}
+			}
 
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING

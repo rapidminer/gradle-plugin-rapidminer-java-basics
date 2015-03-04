@@ -1,5 +1,8 @@
 ## Change Log
 
+#### 0.3.2
+* Adds IntelliJ IDEA support
+
 #### 0.3.1
 * Adds shortened plugin name 'com.rapidminer.java-basics' to comply with plugins.gradle.org standards
 
