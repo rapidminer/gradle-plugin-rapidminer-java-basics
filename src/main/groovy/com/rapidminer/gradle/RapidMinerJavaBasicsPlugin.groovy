@@ -35,6 +35,7 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 	private static final String ENCODING = 'UTF-8'
 	private static final String JAVA_COMPATIBILITY = JavaVersion.VERSION_1_7
+    def final LANG_LEVEL = 1.7
 
 	@Override
 	void apply(Project project) {
@@ -88,11 +89,14 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			}
 			
 			// Configure Intellij provided classpath
-			idea {
-				module {
-					scopes.PROVIDED.plus += [configurations.provided]
-				}
-			}
+			if(project.tasks.getByName("idea")){
+                idea {
+                    module {
+                        scopes.PROVIDED.plus += [configurations.provided]
+                        jdkName = LANG_LEVEL
+                    }
+                }
+            }
 
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING
