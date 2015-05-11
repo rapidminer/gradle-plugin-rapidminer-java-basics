@@ -1,7 +1,7 @@
 ## Change Log
 
 #### 0.3.3
-*
+* Replaces own provided configuration with Nebula provided-base provided configuration.
 
 #### 0.3.2
 * Adds IntelliJ IDEA support

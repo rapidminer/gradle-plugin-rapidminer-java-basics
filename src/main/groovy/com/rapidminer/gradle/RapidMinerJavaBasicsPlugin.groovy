@@ -19,6 +19,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.UnknownTaskException
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.api.artifacts.ModuleDependency
 import org.gradle.api.artifacts.ExcludeRule
@@ -35,7 +36,6 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 	private static final String ENCODING = 'UTF-8'
 	private static final String JAVA_COMPATIBILITY = JavaVersion.VERSION_1_7
-    def final LANG_LEVEL = 1.7
 
 	@Override
 	void apply(Project project) {
@@ -44,17 +44,8 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			apply plugin: 'java'
 			apply plugin: 'eclipse'
 			apply plugin: 'idea'
+			apply plugin: 'provided-base'
 
-			// ###################
-			// Used to create Maven like provided configuration
-			// See http://issues.gradle.org/browse/GRADLE-784
-			configurations { provided }
-
-			sourceSets {
-				main.compileClasspath += configurations.provided
-				test.compileClasspath += configurations.provided
-				test.runtimeClasspath += configurations.provided
-			}
 
 			// Configure 'external' source set
 			sourceSets {
@@ -81,27 +72,10 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 				}
 			}
 
-			// Configure Eclipse provided classpath
-			eclipse {
-				classpath {
-					plusConfigurations += [configurations.provided]
-				}
-			}
-			
-			// Configure Intellij provided classpath
-			if(project.tasks.getByName("idea")){
-                idea {
-                    module {
-                        scopes.PROVIDED.plus += [configurations.provided]
-                        jdkName = LANG_LEVEL
-                    }
-                }
-            }
-
 			// set compilation encoding
 			compileJava.options.encoding = ENCODING
 
-			tasks.withType(org.gradle.api.tasks.compile.JavaCompile) { options.encoding = ENCODING }
+			tasks.withType(JavaCompile) { options.encoding = ENCODING }
 
 			// declare java version compatibility
 			sourceCompatibility = JAVA_COMPATIBILITY
