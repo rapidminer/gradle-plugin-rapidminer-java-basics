@@ -1,10 +1,8 @@
 plugins {
-	id 'com.rapidminer.gradle-plugin' version '0.3.2'
+	id 'com.rapidminer.gradle-plugin' version '0.3.3'
 }
 
-gradlePlugin {
-	id 'java-basics'
-}
+gradlePlugin { id 'java-basics' }
 
 dependencies  {
 	compile 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.+'

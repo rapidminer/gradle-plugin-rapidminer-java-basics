@@ -2,6 +2,7 @@
 
 #### 0.3.3
 * Replaces own provided configuration with Nebula provided-base provided configuration.
+* Fixes Junit version to '4.12' instead of '4.+'
 
 #### 0.3.2
 * Adds IntelliJ IDEA support
