@@ -1,5 +1,7 @@
 ## Change Log
 
+#### 0.3.4
+
 #### 0.3.3
 * Replaces own provided configuration with Nebula provided-base provided configuration.
 * Fixes Junit version to '4.12' instead of '4.+'
