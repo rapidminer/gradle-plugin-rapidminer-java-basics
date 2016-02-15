@@ -35,7 +35,7 @@ import org.gradle.api.plugins.JavaPlugin
 class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 
 	private static final String ENCODING = 'UTF-8'
-	private static final String JAVA_COMPATIBILITY = JavaVersion.VERSION_1_7
+	private static final String JAVA_COMPATIBILITY = JavaVersion.VERSION_1_8
 
 	@Override
 	void apply(Project project) {
@@ -44,7 +44,8 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 			apply plugin: 'java'
 			apply plugin: 'eclipse'
 			apply plugin: 'idea'
-			apply plugin: 'provided-base'
+			apply plugin: 'nebula.provided-base'
+			apply plugin: 'nebula.optional-base'
 
 
 			// Configure 'external' source set

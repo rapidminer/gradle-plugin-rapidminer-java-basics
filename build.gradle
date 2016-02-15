@@ -5,5 +5,5 @@ plugins {
 gradlePlugin { id 'java-basics' }
 
 dependencies  {
-	compile 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.+'
+	compile 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
 }
