@@ -1,5 +1,8 @@
 ## Change Log
 
+#### 0.4.1
+* Updates 'provided' Nebula plugin to version 3.1.0
+
 #### 0.4.0
 * Changes Java target compatibility to version 1.8
 * Updates 'provided' Nebula plugin to version 3.0.3
