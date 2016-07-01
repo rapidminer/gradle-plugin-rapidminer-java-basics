@@ -1,5 +1,7 @@
 ## Change Log
 
+#### 0.4.2
+
 #### 0.4.1
 * Updates 'provided' Nebula plugin to version 3.1.0
 
