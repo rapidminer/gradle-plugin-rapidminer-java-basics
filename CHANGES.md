@@ -1,6 +1,7 @@
 ## Change Log
 
 #### 0.4.2
+* Add 'external' source set to 'test' source set 
 
 #### 0.4.1
 * Updates 'provided' Nebula plugin to version 3.1.0

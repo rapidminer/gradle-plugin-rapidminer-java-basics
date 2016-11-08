@@ -58,6 +58,10 @@ class RapidMinerJavaBasicsPlugin implements Plugin<Project> {
 					compileClasspath += external.output
 					runtimeClasspath += external.output
 				}
+				test {
+					compileClasspath += external.output
+					runtimeClasspath += external.output
+				}
 			}
 
 			// Ensure that external source set will be added to the jar
