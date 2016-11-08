@@ -1,5 +1,7 @@
 ## Change Log
 
+#### 0.4.3
+
 #### 0.4.2
 * Add 'external' source set to 'test' source set 
 
